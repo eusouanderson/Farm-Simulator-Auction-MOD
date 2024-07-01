@@ -1,0 +1,80 @@
+/* AuctionItem.css */
+
+.auction-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #f9f9f9;
+}
+
+.auction-item h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.auction-item-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.auction-item-description {
+    margin-bottom: 8px;
+}
+
+.auction-item-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.auction-item-bid {
+    flex: 1;
+    margin-right: 16px;
+}
+
+.auction-item-info {
+    flex: 1;
+}
+
+.auction-item-current-bid {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.auction-item-select {
+    margin-bottom: 8px;
+}
+
+.auction-item-info p {
+    margin-bottom: 8px;
+}
+
+.info-label {
+    font-weight: bold;
+}
+
+.owner-name {
+    color: #007bff;
+    /* Exemplo de cor para destacar o nome do proprietário */
+}
+
+.auction-item-input {
+    padding: 8px;
+    margin-top: 8px;
+    width: calc(100% - 16px);
+}
+
+.auction-item-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.auction-item-button:hover {
+    background-color: #45a049;
+}

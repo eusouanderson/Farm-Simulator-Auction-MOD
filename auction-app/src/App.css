@@ -1,0 +1,27 @@
+/* src/App.css */
+nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: #282c34;
+  padding: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.auction-item,
+.auction-list,
+form {
+  margin: 1rem;
+}
+
+.auction-item {
+  border: 1px solid #ccc;
+  padding: 1rem;
+}
+
+button {
+  margin-top: 0.5rem;
+}
