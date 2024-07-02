@@ -2,6 +2,7 @@ import React from 'react';
 import AuctionList from '../components/AuctionList';
 import './HomePage.css';
 
+
 const HomePage = ({ items, placeBid }) => {
     return (
         <div className="container">
