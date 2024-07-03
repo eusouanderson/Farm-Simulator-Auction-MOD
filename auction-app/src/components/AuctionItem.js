@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './AuctionItem.css';
 import AuctionTimer from './AuctionTimer';
 
-const AuctionItem = ({ item, placeBid, timeRemaining }) => {
+const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
     const [incrementAmount, setIncrementAmount] = useState(500);
     const [bidderName, setBidderName] = useState('');
     const [lastBidder, setLastBidder] = useState(item.lastBidder);
@@ -19,7 +19,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining }) => {
             const auctionData = JSON.parse(localStorage.getItem('auctions')) || { auctions: [] };
             const updatedItems = auctionData.auctions.map(a => {
                 if (a.id === item.id) {
-                    return { ...a, lastBidder, bidCount: item.bidCount + 1, startingBid: currentBid, winner };
+                    return { ...a, lastBidder, bidCount: item.bidCount + 1, startingBid: currentBid, winner, remainingTime };
                 }
                 return a;
             });
@@ -27,7 +27,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining }) => {
         };
 
         updateLocalStorage();
-    }, [lastBidder, item.bidCount, item.id, currentBid, winner]);
+    }, [lastBidder, item.bidCount, item.id, currentBid, winner, remainingTime]);
 
     const handleIncrementAmountChange = (event) => {
         setIncrementAmount(parseInt(event.target.value));
@@ -58,7 +58,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining }) => {
         if (remainingTime > 0) {
             setWinner(lastBidder);
         }
-        setRemainingTime(0); // Garante que o tempo restante seja zero ao finalizar
+        setRemainingTime(0);
     };
 
     return (
@@ -103,6 +103,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining }) => {
             <button onClick={handlePlaceBid} className="auction-item-button" disabled={remainingTime <= 0}>
                 Dar Lance
             </button>
+            
         </div>
     );
 };

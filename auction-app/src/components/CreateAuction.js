@@ -29,13 +29,14 @@ const CreateAuction = () => {
             startingBid: parseFloat(startingBid),
             imageUrl,
             timeRemaining: timeInSeconds,
+            timeCurrent: 0,
             description: '' // Adicione uma descrição se necessário
         };
 
-        // Adicione o novo leilão aos dados existentes
+        
         auctionsData.auctions.push(newAuction);
 
-        // Atualize o arquivo JSON com os novos dados
+        
         const jsonString = JSON.stringify(auctionsData);
         localStorage.setItem('auctions', jsonString);
 
