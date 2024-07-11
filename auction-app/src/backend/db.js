@@ -1,8 +1,13 @@
+// test-mongo.js
+
 const mongoose = require('mongoose');
+const connectDB = require('./connect-db'); // Importe o arquivo que contém a função connectDB
 
-const MONGO_URI = process.env.MONGO_URI;
+// URI de conexão com o MongoDB
+const MONGO_URI = 'mongodb+srv://eusouanderson:67983527@cluster0.fuidnmk.mongodb.net/FarmSimulatorBD?retryWrites=true&w=majority';
 
-const connectDB = async () => {
+// Função para conectar ao MongoDB
+const testConnectDB = async () => {
     try {
         await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
@@ -17,4 +22,5 @@ const connectDB = async () => {
     }
 };
 
-module.exports = connectDB;
+// Chama a função para conectar ao MongoDB
+testConnectDB();
