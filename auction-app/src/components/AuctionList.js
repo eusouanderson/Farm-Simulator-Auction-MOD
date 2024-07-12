@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import AuctionItem from './AuctionItem';
+import axios from 'axios';
 
 const AuctionList = ({ placeBid }) => {
     const [auctionItems, setAuctionItems] = useState([]);
 
     useEffect(() => {
-        const loadItemsFromLocalStorage = () => {
-            const auctionData = JSON.parse(localStorage.getItem('auctions')) || { auctions: [] };
-            setAuctionItems(auctionData.auctions);
+        const fetchAuctions = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/getauctions'); // Endpoint do seu back-end
+                setAuctionItems(response.data); // Atualiza o estado com os leilões recebidos do servidor
+            } catch (error) {
+                console.error('Erro ao buscar leilões:', error);
+            }
         };
 
-        loadItemsFromLocalStorage();
+        fetchAuctions();
     }, []);
 
-    const deleteItem = (id) => {
-        const updatedItems = auctionItems.filter(item => item.id !== id);
-        setAuctionItems(updatedItems);
-        localStorage.setItem('auctions', JSON.stringify({ auctions: updatedItems }));
+    const deleteItem = async (id) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/getauctions/${id}`); // Endpoint para deletar leilão
+            const updatedItems = auctionItems.filter(item => item._id !== id); // Filtra o item excluído
+            setAuctionItems(updatedItems); // Atualiza o estado local
+        } catch (error) {
+            console.error('Erro ao deletar leilão:', error);
+        }
     };
 
     return (
@@ -24,7 +33,7 @@ const AuctionList = ({ placeBid }) => {
             {auctionItems && auctionItems.length > 0 ? (
                 auctionItems.map(item => (
                     <AuctionItem
-                        key={item.id}
+                        key={item._id} // Use _id como chave única do MongoDB
                         item={item}
                         placeBid={placeBid}
                         timeRemaining={item.timeRemaining}
@@ -32,7 +41,7 @@ const AuctionList = ({ placeBid }) => {
                     />
                 ))
             ) : (
-                <p>Nenhum leilão Ativo.</p>
+                <p>Nenhum leilão ativo.</p>
             )}
         </div>
     );

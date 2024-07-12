@@ -1,8 +1,6 @@
 import React from 'react';
 import './CreateAuction.css';
 import AuctionTimer from './AuctionTimer';
-
-// Importe a função insertIntoAuctions do seu arquivo mongoDB.js
 import { insertIntoAuctions } from '../backend/sendData'; // Certifique-se de ajustar o caminho conforme necessário
 
 let auctionsData = { auctions: [] };
