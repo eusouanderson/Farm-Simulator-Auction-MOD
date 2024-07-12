@@ -2,13 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/conect.js",
-      "use": "@vercel/node"
-    },
-    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "build" }
+    },
+    {
+      "src": "backend/conect.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
