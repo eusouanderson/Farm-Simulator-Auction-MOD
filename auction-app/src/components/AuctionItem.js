@@ -112,7 +112,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
                     <p><span className="info-label">Novo Valor do Lance:</span> R${currentBid + incrementAmount}</p>
                     <p><span className="info-label">Último Lance por:</span> {item.winner} <span className="info-label">Valor:</span> R${incrementAmount}</p>
                     <p><span className="info-label">Proprietário:</span> <span className="owner-name">{item.owner}</span></p>
-                    <p><span className="info-label">Vencedor:</span> {item.winner}</p>
+                    <p><span className="info-label">Quem esta Vencendo:</span> {item.winner}</p>
 
                     <p><AuctionTimer time={remainingTime} onTimerEnd={handleTimerEnd} /></p>
                 </div>
