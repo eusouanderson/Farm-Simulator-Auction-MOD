@@ -128,9 +128,11 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
             <button onClick={handlePlaceBid} className="auction-item-button" disabled={remainingTime <= 0}>
                 Dar Lance
             </button>
-            <button onClick={() => deleteItem(item._id.toString())} className="auction-item-button" disabled={remainingTime <= 0}>
+
+
+             {/* <button onClick={() => deleteItem(item._id.toString())} className="auction-item-button" disabled={remainingTime <= 0}>
                 Deletar Leilão
-            </button>
+            </button> */}
         </div>
     );
 };
