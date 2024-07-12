@@ -1,7 +1,7 @@
 import React from 'react';
 import './CreateAuction.css';
 import AuctionTimer from './AuctionTimer';
-import { insertIntoAuctions } from '../backend/sendData'; // Certifique-se de ajustar o caminho conforme necessário
+import { insertIntoAuctions } from './sendData'; // Certifique-se de ajustar o caminho conforme necessário
 
 let auctionsData = { auctions: [] };
 if (localStorage.getItem('auctions')) {
