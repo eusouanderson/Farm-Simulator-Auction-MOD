@@ -17,7 +17,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
     useEffect(() => {
         const updateAuctionTimeCurrent = async () => {
             try {
-                await axios.put(`https://farm-simulator-auction-61uwgq0j6-eusouandersons-projects.vercel.app/api/updateauction/${item._id}`, { timeCurrent: remainingTime, timeRemaining: remainingTime });
+                await axios.put(`https://farm-simulator-auction-mod.vercel.app/api/updateauction/${item._id}`, { timeCurrent: remainingTime, timeRemaining: remainingTime });
             } catch (error) {
                 console.error('Erro ao atualizar tempo corrente do leilão:', error);
             }
@@ -25,7 +25,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
 
         const updateAuctionWinner = async () => {
             try {
-                await axios.put(`https://farm-simulator-auction-61uwgq0j6-eusouandersons-projects.vercel.app/api/updateauction/${item._id}`, { winner: lastBidder });
+                await axios.put(`https://farm-simulator-auction-mod.vercel.app/api/updateauction/${item._id}`, { winner: lastBidder });
             } catch (error) {
                 console.error('Erro ao atualizar o vencedor do leilão: ', error)
             }
@@ -66,7 +66,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
 
         // Envia o novo lance para o backend
         try {
-            await axios.put(`https://farm-simulator-auction-61uwgq0j6-eusouandersons-projects.vercel.app/api/updateauction/${item._id}`, { startingBid: newBidAmount });
+            await axios.put(`https://farm-simulator-auction-mod.vercel.app/api/updateauction/${item._id}`, { startingBid: newBidAmount });
         } catch (error) {
             console.error('Erro ao atualizar o valor do lance:', error);
         }

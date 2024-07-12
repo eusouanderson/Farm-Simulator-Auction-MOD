@@ -1,6 +1,6 @@
 export const insertIntoAuctions = async (auctionData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auctions', {
+      const response = await fetch('https://farm-simulator-auction-mod.vercel.app/api/auctions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
