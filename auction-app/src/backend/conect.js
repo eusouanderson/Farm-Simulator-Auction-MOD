@@ -1,21 +1,36 @@
+const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = 5000;
+
+app.use(cors());
+app.use(bodyParser.json());
 
 const MONGO_URI = 'mongodb+srv://eusouanderson:67983527@cluster0.fuidnmk.mongodb.net/farmSimulator?retryWrites=true&w=majority';
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const connectDB = async () => {
-    try {
-        await mongoose.connect(MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            connectTimeoutMS: 30000, // Ajuste o tempo limite de conexão conforme necessário
-        });
-        console.log('Conexão ao MongoDB Atlas bem sucedida');
-    } catch (error) {
-        console.error('Erro ao conectar ao MongoDB Atlas:', error.message);
-        process.exit(1); // Encerra o processo Node.js com falha
-    }
-};
+const DataSchema = new mongoose.Schema({
+  key: String,
+  value: String
+});
 
-connectDB(); // Chama a função para conectar ao MongoDB
+const Data = mongoose.model('Data', DataSchema);
 
-module.exports = connectDB;
+app.post('/api/data', async (req, res) => {
+  const { key, value } = req.body;
+  const newData = new Data({ key, value });
+  await newData.save();
+  res.json(newData);
+});
+
+app.get('/api/data', async (req, res) => {
+  const data = await Data.find();
+  res.json(data);
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

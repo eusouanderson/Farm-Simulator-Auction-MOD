@@ -2,6 +2,8 @@ import React from 'react';
 import './CreateAuction.css';
 import AuctionTimer from './AuctionTimer';
 
+// Importe a função insertIntoAuctions do seu arquivo mongoDB.js
+import { insertIntoAuctions } from '../backend/sendData'; // Certifique-se de ajustar o caminho conforme necessário
 
 let auctionsData = { auctions: [] };
 if (localStorage.getItem('auctions')) {
@@ -18,7 +20,7 @@ const CreateAuction = () => {
     const [time, setTime] = React.useState('');
     const [auctionTime, setAuctionTime] = React.useState(null);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const timeInSeconds = time * 60;
@@ -33,10 +35,11 @@ const CreateAuction = () => {
             description: '' // Adicione uma descrição se necessário
         };
 
-        
-        auctionsData.auctions.push(newAuction);
+        // Insira os dados no MongoDB usando a função importada
+        await insertIntoAuctions(newAuction);
 
-        
+        // Atualize o estado local (localStorage) se necessário
+        auctionsData.auctions.push(newAuction);
         const jsonString = JSON.stringify(auctionsData);
         localStorage.setItem('auctions', jsonString);
 
