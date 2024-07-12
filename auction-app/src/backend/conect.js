@@ -27,6 +27,8 @@ const AuctionSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   timeRemaining: { type: Number, required: true },
   timeCurrent: { type: Number, required: true },
+  winner: { type: String, default : '' },
+  lastSpear: { type: String, default: '' },
   description: { type: String, default: '' }
 });
 
@@ -45,6 +47,37 @@ app.post('/api/auctions', async (req, res) => {
   }
 });
 
+app.put('/api/updateauction/:id', async (req, res) => {
+  const { id } = req.params;
+  const { timeRemaining, timeCurrent, winner, startingBid } = req.body;
+
+  try {
+    let updateFields = {};
+    if (timeRemaining !== undefined) {
+      updateFields.timeRemaining = timeRemaining;
+    }
+    if (timeCurrent !== undefined) {
+      updateFields.timeCurrent = timeCurrent;
+    }
+    if (winner !== undefined) {
+      updateFields.winner = winner;
+    }
+    if (startingBid !== undefined) {
+      updateFields.startingBid = startingBid
+    }
+
+    const updatedAuction = await Auction.findByIdAndUpdate(id, updateFields, { new: true });
+    if (!updatedAuction) {
+      return res.status(404).json({ message: 'Leilão não encontrado' });
+    }
+    res.json(updatedAuction);
+  } catch (err) {
+    console.error('Erro ao atualizar leilão:', err);
+    res.status(500).json({ message: 'Erro ao atualizar leilão', error: err });
+  }
+});
+
+
 app.get('/api/getauctions', async (req, res) => {
   try {
     const auctions = await Auction.find(); // Busca todos os leilões no MongoDB
@@ -52,6 +85,20 @@ app.get('/api/getauctions', async (req, res) => {
   } catch (err) {
     console.error('Erro ao buscar leilões:', err);
     res.status(500).json({ message: 'Erro ao buscar leilões', error: err });
+  }
+});
+
+app.delete('/api/deleteauctions/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedAuction = await Auction.findByIdAndDelete(id);
+    if (!deletedAuction) {
+      return res.status(404).json({ message: 'Leilão não encontrado' });
+    }
+    res.json({ message: 'Leilão deletado com sucesso', deletedAuction });
+  } catch (err) {
+    console.error('Erro ao deletar leilão:', err);
+    res.status(500).json({ message: 'Erro ao deletar leilão', error: err });
   }
 });
 

@@ -1,4 +1,3 @@
-// sendData.js
 export const insertIntoAuctions = async (auctionData) => {
     try {
       const response = await fetch('http://localhost:5000/api/auctions', {

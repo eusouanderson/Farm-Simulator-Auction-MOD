@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AuctionItem.css';
 import AuctionTimer from './AuctionTimer';
+import axios from 'axios';
 
 const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
     const [incrementAmount, setIncrementAmount] = useState(500);
     const [bidderName, setBidderName] = useState('');
     const [lastBidder, setLastBidder] = useState(item.lastBidder);
     const [currentBid, setCurrentBid] = useState(item.startingBid);
-    const [winner, setWinner] = useState('');
     const [remainingTime, setRemainingTime] = useState(timeRemaining);
 
     useEffect(() => {
@@ -15,25 +15,41 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
     }, [timeRemaining]);
 
     useEffect(() => {
-        const updateLocalStorage = () => {
-            const auctionData = JSON.parse(localStorage.getItem('auctions')) || { auctions: [] };
-            const updatedItems = auctionData.auctions.map(a => {
-                if (a.id === item.id) {
-                    return { ...a, lastBidder, bidCount: item.bidCount + 1, startingBid: currentBid, winner, remainingTime };
-                }
-                return a;
-            });
-            localStorage.setItem('auctions', JSON.stringify({ auctions: updatedItems }));
+        const updateAuctionTimeCurrent = async () => {
+            try {
+                await axios.put(`http://localhost:5000/api/updateauction/${item._id}`, { timeCurrent: remainingTime, timeRemaining: remainingTime });
+            } catch (error) {
+                console.error('Erro ao atualizar tempo corrente do leilão:', error);
+            }
         };
 
-        updateLocalStorage();
-    }, [lastBidder, item.bidCount, item.id, currentBid, winner, remainingTime]);
+        const updateAuctionWinner = async () => {
+            try {
+                await axios.put(`http://localhost:5000/api/updateauction/${item._id}`, { winner: lastBidder });
+            } catch (error) {
+                console.error('Erro ao atualizar o vencedor do leilão: ', error)
+            }
+        };
+
+        const timer = setInterval(() => {
+            if (remainingTime > 0) {
+                setRemainingTime(prevTime => prevTime - 1);
+            }
+        }, 1000);
+
+        // Atualiza o tempo corrente e o vencedor quando o tempo restante muda
+        updateAuctionTimeCurrent();
+        updateAuctionWinner();
+
+        // Limpa o temporizador quando o componente é desmontado ou o leilão termina
+        return () => clearInterval(timer);
+    }, [remainingTime, item._id, lastBidder]);
 
     const handleIncrementAmountChange = (event) => {
         setIncrementAmount(parseInt(event.target.value));
     };
 
-    const handlePlaceBid = () => {
+    const handlePlaceBid = async () => {
         if (bidderName.trim() === '') {
             alert('Por favor, insira seu nome para dar um lance.');
             return;
@@ -45,9 +61,19 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
         }
 
         const newBidAmount = currentBid + incrementAmount;
-        placeBid(item.id, newBidAmount, bidderName);
-        setLastBidder(bidderName);
+        // Atualiza o lance atual no estado local
         setCurrentBid(newBidAmount);
+
+        // Envia o novo lance para o backend
+        try {
+            await axios.put(`http://localhost:5000/api/updateauction/${item._id}`, { startingBid: newBidAmount });
+        } catch (error) {
+            console.error('Erro ao atualizar o valor do lance:', error);
+        }
+
+        // Atualiza o último licitante e o lance atual no estado local
+        placeBid(item._id, newBidAmount, bidderName);
+        setLastBidder(bidderName);
     };
 
     const handleNameChange = (event) => {
@@ -56,7 +82,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
 
     const handleTimerEnd = () => {
         if (remainingTime > 0) {
-            setWinner(lastBidder);
+            setLastBidder(bidderName); 
         }
         setRemainingTime(0);
     };
@@ -69,9 +95,9 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
             <div className="auction-item-details">
                 <div className="auction-item-bid">
                     <p className="auction-item-current-bid">Lance Atual: R${currentBid}</p>
-                    <label htmlFor={`increment-amount-${item.id}`}>Novo Lance:</label>
+                    <label htmlFor={`increment-amount-${item._id}`}>Novo Lance:</label>
                     <select
-                        id={`increment-amount-${item.id}`}
+                        id={`increment-amount-${item._id}`}
                         value={incrementAmount}
                         onChange={handleIncrementAmountChange}
                         className="auction-item-select"
@@ -84,10 +110,9 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
                 </div>
                 <div className="auction-item-info">
                     <p><span className="info-label">Novo Valor do Lance:</span> R${currentBid + incrementAmount}</p>
-                    <p><span className="info-label">Último Lance por:</span> {lastBidder} <span className="info-label">Valor:</span> R${incrementAmount}</p>
-                    <p><span className="info-label">Quantidade de Lances:</span> {item.bidCount}</p>
+                    <p><span className="info-label">Último Lance por:</span> {item.winner} <span className="info-label">Valor:</span> R${incrementAmount}</p>
                     <p><span className="info-label">Proprietário:</span> <span className="owner-name">{item.owner}</span></p>
-                    <p><span className="info-label">Vencedor:</span> {winner}</p>
+                    <p><span className="info-label">Vencedor:</span> {item.winner}</p>
 
                     <p><AuctionTimer time={remainingTime} onTimerEnd={handleTimerEnd} /></p>
                 </div>
@@ -103,7 +128,9 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
             <button onClick={handlePlaceBid} className="auction-item-button" disabled={remainingTime <= 0}>
                 Dar Lance
             </button>
-            
+            <button onClick={() => deleteItem(item._id.toString())} className="auction-item-button" disabled={remainingTime <= 0}>
+                Deletar Leilão
+            </button>
         </div>
     );
 };

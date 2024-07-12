@@ -8,7 +8,10 @@ const auctionSchema = new mongoose.Schema({
     imageUrl: { type: String },
     timeRemaining: { type: Number },
     timeCurrent: { type: Number },
+    winner:{ type: String },
+    lastSpear: { type: String },
     description: { type: String }
+    
 });
 
 const Auction = mongoose.model('Auction', auctionSchema);

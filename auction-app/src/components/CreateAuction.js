@@ -30,7 +30,9 @@ const CreateAuction = () => {
             imageUrl,
             timeRemaining: timeInSeconds,
             timeCurrent: 0,
-            description: '' // Adicione uma descrição se necessário
+            winner: '',
+            lastSpear: '',
+            description: '' 
         };
 
         // Insira os dados no MongoDB usando a função importada
@@ -47,7 +49,7 @@ const CreateAuction = () => {
         setItemName('');
         setStartingBid('');
         setImageUrl('');
-        setTime('');
+        
     };
 
     const handleImageUpload = (e) => {
@@ -97,6 +99,7 @@ const CreateAuction = () => {
                     placeholder="Tempo Para Finalizar o Leilão (minutos)"
                     required
                 />
+                
 
                 {imageUrl && <img src={imageUrl} alt="Preview" style={{ width: '100px', height: '100px' }} />}
 

@@ -20,9 +20,9 @@ const AuctionList = ({ placeBid }) => {
 
     const deleteItem = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/getauctions/${id}`); // Endpoint para deletar leilão
-            const updatedItems = auctionItems.filter(item => item._id !== id); // Filtra o item excluído
-            setAuctionItems(updatedItems); // Atualiza o estado local
+            await axios.delete(`http://localhost:5000/api/deleteauctions/${id}`);
+            const updatedItems = auctionItems.filter(item => item._id !== id);
+            setAuctionItems(updatedItems);
         } catch (error) {
             console.error('Erro ao deletar leilão:', error);
         }
@@ -33,11 +33,11 @@ const AuctionList = ({ placeBid }) => {
             {auctionItems && auctionItems.length > 0 ? (
                 auctionItems.map(item => (
                     <AuctionItem
-                        key={item._id} // Use _id como chave única do MongoDB
+                        key={item._id} 
                         item={item}
                         placeBid={placeBid}
                         timeRemaining={item.timeRemaining}
-                        deleteItem={deleteItem}
+                        deleteItem={() => deleteItem(item._id.toString())}
                     />
                 ))
             ) : (
