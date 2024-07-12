@@ -8,7 +8,7 @@ const AuctionList = ({ placeBid }) => {
     useEffect(() => {
         const fetchAuctions = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/getauctions'); // Endpoint do seu back-end
+                const response = await axios.get('https://farm-simulator-auction-mod.vercel.app/api/getauctions'); // Endpoint do seu back-end
                 setAuctionItems(response.data); // Atualiza o estado com os leilões recebidos do servidor
             } catch (error) {
                 console.error('Erro ao buscar leilões:', error);
@@ -20,7 +20,7 @@ const AuctionList = ({ placeBid }) => {
 
     const deleteItem = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/deleteauctions/${id}`);
+            await axios.delete(`https://farm-simulator-auction-mod.vercel.app/api/deleteauctions/${id}`);
             const updatedItems = auctionItems.filter(item => item._id !== id);
             setAuctionItems(updatedItems);
         } catch (error) {
