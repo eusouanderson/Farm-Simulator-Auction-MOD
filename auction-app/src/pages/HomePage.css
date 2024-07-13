@@ -22,3 +22,15 @@
     padding: 10px;
     background-color: #f1f1f1;
 }
+
+
+.header h1 {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    width: 50px;
+    height: auto;
+    margin-right: 10px; 
+}

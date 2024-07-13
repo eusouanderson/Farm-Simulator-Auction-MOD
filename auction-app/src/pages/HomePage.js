@@ -1,5 +1,6 @@
 import React from 'react';
 import AuctionList from '../components/AuctionList';
+import logo from '../image/logo.png';
 import './HomePage.css';
 
 
@@ -7,18 +8,21 @@ const HomePage = ({ items, placeBid }) => {
     return (
         <div className="container">
             <header className="header">
-                <h1>Leilão Farm Simulator</h1>
+                <h1>
+                    <img src={logo} alt="Logo" className="header-logo" />
+                    Leilão Farm Simulator
+                </h1>
             </header>
             <nav>
                 <ul>
-                    <li><a href="/contact">Contato</a></li>
+                    <li><a href="https://github.com/eusouanderson" target="_blank" rel="noopener noreferrer">GitHub</a></li>
                 </ul>
             </nav>
             <main className="auction-list">
                 <AuctionList items={items} placeBid={placeBid} />
             </main>
             <footer className="footer">
-                <p>Conheça mais sobre o B.o.B no meu <a href="https://github.com/eusouanderson">GitHub</a>.</p>
+                <p>B.o.B <a href="https://github.com/eusouanderson">GitHub</a>.</p>
                 <p>&copy; 2024 Leilão Farm Simulator. Todos os direitos reservados </p>
             </footer>
         </div>
