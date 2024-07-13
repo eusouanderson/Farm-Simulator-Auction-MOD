@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './AuctionItem.css';
 import AuctionTimer from './AuctionTimer';
 import axios from 'axios';
@@ -20,6 +20,19 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
         setLastBidder(item.winner);
         setCurrentBid(item.startingBid);
     }, [item]);
+
+    // Função fetchAuctionData usando useCallback para memorizar a função
+    const fetchAuctionData = useCallback(async () => {
+        try {
+            const response = await axios.get(`https://farm-simulator-auction-mod.vercel.app/api/auction/${item._id}`);
+            const auctionData = response.data;
+            setLastBidder(auctionData.winner);
+            setCurrentBid(auctionData.startingBid);
+            setRemainingTime(auctionData.timeRemaining);
+        } catch (error) {
+            console.error('Erro ao buscar dados do leilão:', error);
+        }
+    }, [item._id]);
 
     // Atualiza o tempo corrente do leilão e o vencedor no servidor a cada segundo
     useEffect(() => {
@@ -49,8 +62,15 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
         updateAuctionTimeCurrent();
         updateAuctionWinner();
 
-        return () => clearInterval(timer);
-    }, [remainingTime, item._id, lastBidder]);
+        // Busca os dados atualizados a cada segundo
+        const fetchInterval = setInterval(fetchAuctionData, 1000);
+
+        // Retorna uma função de limpeza para limpar os intervalos
+        return () => {
+            clearInterval(timer);
+            clearInterval(fetchInterval);
+        };
+    }, [remainingTime, item._id, lastBidder, fetchAuctionData]);
 
     // Handler para mudança no valor do incremento
     const handleIncrementAmountChange = (event) => {

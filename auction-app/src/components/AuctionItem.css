@@ -22,7 +22,7 @@
 
 /* Image */
 .auction-item-image {
-    width: 100%;
+    width: 40%;
     border-radius: 5px;
 }
 
@@ -58,7 +58,7 @@
 
 /* Select Box */
 .auction-item-select {
-    width: 10%;
+    max-width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -140,14 +140,9 @@
 
     background-color: #007bff;
     color: #fff;
-    padding: 10px 20px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
-    margin-top: 10px;
-    display: block;
-    width: 10%;
+    max-width: 100%;
 }
 
 .auction-item-button:hover {

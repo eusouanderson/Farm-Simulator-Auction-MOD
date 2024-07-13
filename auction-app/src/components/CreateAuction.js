@@ -12,7 +12,7 @@ if (localStorage.getItem('auctions')) {
     localStorage.setItem('auctions', JSON.stringify(auctionsData));
 }
 
-// Defina o elemento de acesso do modal
+
 Modal.setAppElement('#root');
 
 const CreateAuction = () => {
@@ -64,7 +64,7 @@ const CreateAuction = () => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Convert all images to JPEG for compatibility
+            
             Resizer.imageFileResizer(
                 file,
                 500,
@@ -151,6 +151,7 @@ const CreateAuction = () => {
                 <h2>Leilão Criado !!</h2>
                 {auctionTime !== null && <AuctionTimer time={auctionTime} />}
             </Modal>
+            <p> Até o momento só está funcionando com imagens no formato PNG e WEBP </p>
         </div>
     );
 };
