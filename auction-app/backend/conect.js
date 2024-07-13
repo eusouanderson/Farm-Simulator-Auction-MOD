@@ -16,7 +16,7 @@ mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('MongoDB conectado'))
+.then(() => console.log('MongoDB iniciado'))
 .catch(err => console.error('Erro ao conectar com o MongoDB:', err));
 
 // Definição do Schema e Model
@@ -34,13 +34,12 @@ const AuctionSchema = new mongoose.Schema({
 
 const Auction = mongoose.model('Auction', AuctionSchema);
 
-app.use(bodyParser.json({ limit: '40mb' }));
+app.use(bodyParser.json({ limit: '140mb' }));
 
-// Endpoint para criar um novo leilão
 app.post('/api/auctions', async (req, res) => {
   try {
-    const newAuction = await Auction.create(req.body); // Utiliza create() para inserir um novo leilão
-    res.status(201).json(newAuction); // Retorna o leilão criado com o status 201 Created
+    const newAuction = await Auction.create(req.body); 
+    res.status(201).json(newAuction); 
   } catch (err) {
     console.error('Erro ao salvar o leilão:', err);
     res.status(500).json({ message: 'Erro ao salvar o leilão', error: err });
@@ -77,11 +76,10 @@ app.put('/api/updateauction/:id', async (req, res) => {
   }
 });
 
-
 app.get('/api/getauctions', async (req, res) => {
   try {
-    const auctions = await Auction.find(); // Busca todos os leilões no MongoDB
-    res.json(auctions); // Retorna os leilões encontrados como JSON
+    const auctions = await Auction.find(); 
+    res.json(auctions); 
   } catch (err) {
     console.error('Erro ao buscar leilões:', err);
     res.status(500).json({ message: 'Erro ao buscar leilões', error: err });
@@ -102,7 +100,6 @@ app.delete('/api/deleteauctions/:id', async (req, res) => {
   }
 });
 
-// Inicialização do servidor
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
