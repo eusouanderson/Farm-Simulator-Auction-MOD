@@ -1,7 +1,7 @@
 import React from 'react';
 import './CreateAuction.css';
 import AuctionTimer from './AuctionTimer';
-import { insertIntoAuctions } from './sendData'; // Certifique-se de ajustar o caminho conforme necessário
+import { insertIntoAuctions } from './sendData'; // Ajuste o caminho conforme necessário
 
 let auctionsData = { auctions: [] };
 if (localStorage.getItem('auctions')) {
@@ -32,7 +32,7 @@ const CreateAuction = () => {
             timeCurrent: 0,
             winner: '',
             lastSpear: '',
-            description: '' 
+            description: ''
         };
 
         // Insira os dados no MongoDB usando a função importada
@@ -49,7 +49,7 @@ const CreateAuction = () => {
         setItemName('');
         setStartingBid('');
         setImageUrl('');
-        
+        setTime('');
     };
 
     const handleImageUpload = (e) => {
@@ -59,6 +59,13 @@ const CreateAuction = () => {
             setImageUrl(reader.result);
         };
         reader.readAsDataURL(file);
+    };
+
+    // Função para converter minutos em horas e minutos
+    const convertMinutesToHoursAndMinutes = (totalMinutes) => {
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return `${hours} hora(s) e ${minutes} minuto(s)`;
     };
 
     return (
@@ -99,7 +106,12 @@ const CreateAuction = () => {
                     placeholder="Tempo Para Finalizar o Leilão (minutos)"
                     required
                 />
-                
+                {time && (
+                    <p>
+                        Tempo inserido: {time} minuto(s) - Equivalente a{' '}
+                        {convertMinutesToHoursAndMinutes(time)}.
+                    </p>
+                )}
 
                 {imageUrl && <img src={imageUrl} alt="Preview" style={{ width: '100px', height: '100px' }} />}
 

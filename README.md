@@ -36,9 +36,7 @@ Aqui estão as principais dependências utilizadas neste projeto e uma breve des
 
 ```json
 {
-  "name": "auction-app",
-  "version": "0.1.0",
-  "private": true,
+  
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
