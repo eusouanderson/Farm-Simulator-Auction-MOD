@@ -34,7 +34,7 @@ const AuctionSchema = new mongoose.Schema({
 
 const Auction = mongoose.model('Auction', AuctionSchema);
 
-app.use(bodyParser.json({ limit: '20mb' }));
+app.use(bodyParser.json({ limit: '40mb' }));
 
 // Endpoint para criar um novo leilão
 app.post('/api/auctions', async (req, res) => {

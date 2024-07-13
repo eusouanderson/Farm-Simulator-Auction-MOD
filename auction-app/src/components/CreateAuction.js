@@ -1,7 +1,9 @@
 import React from 'react';
 import './CreateAuction.css';
 import AuctionTimer from './AuctionTimer';
-import { insertIntoAuctions } from './sendData'; // Ajuste o caminho conforme necessário
+import { insertIntoAuctions } from './sendData';
+import Resizer from 'react-image-file-resizer';
+import Modal from 'react-modal';
 
 let auctionsData = { auctions: [] };
 if (localStorage.getItem('auctions')) {
@@ -10,6 +12,9 @@ if (localStorage.getItem('auctions')) {
     localStorage.setItem('auctions', JSON.stringify(auctionsData));
 }
 
+// Defina o elemento de acesso do modal
+Modal.setAppElement('#root');
+
 const CreateAuction = () => {
     const [ownerName, setOwnerName] = React.useState('');
     const [itemName, setItemName] = React.useState('');
@@ -17,6 +22,7 @@ const CreateAuction = () => {
     const [imageUrl, setImageUrl] = React.useState('');
     const [time, setTime] = React.useState('');
     const [auctionTime, setAuctionTime] = React.useState(null);
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,37 +41,54 @@ const CreateAuction = () => {
             description: ''
         };
 
-        // Insira os dados no MongoDB usando a função importada
         await insertIntoAuctions(newAuction);
 
-        // Atualize o estado local (localStorage) se necessário
         auctionsData.auctions.push(newAuction);
         const jsonString = JSON.stringify(auctionsData);
         localStorage.setItem('auctions', jsonString);
 
         setAuctionTime(timeInSeconds);
+        setModalIsOpen(true);
 
         setOwnerName('');
         setItemName('');
         setStartingBid('');
         setImageUrl('');
         setTime('');
+        
+        setTimeout(() => {
+            closeModal();
+        }, 4000);
     };
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setImageUrl(reader.result);
-        };
-        reader.readAsDataURL(file);
+        if (file) {
+            // Convert all images to JPEG for compatibility
+            Resizer.imageFileResizer(
+                file,
+                500,
+                500,
+                'WEBP',
+                100,
+                0,
+                (uri) => {
+                    setImageUrl(uri);
+                },
+                'base64'
+            );
+        }
     };
 
-    // Função para converter minutos em horas e minutos
     const convertMinutesToHoursAndMinutes = (totalMinutes) => {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
         return `${hours} hora(s) e ${minutes} minuto(s)`;
+    };
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setAuctionTime(null);
     };
 
     return (
@@ -118,7 +141,16 @@ const CreateAuction = () => {
                 <button type="submit">Criar</button>
             </form>
 
-            {auctionTime !== null && <AuctionTimer time={auctionTime} />}
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Leilão Criado"
+                className="modal"
+                overlayClassName="overlay"
+            >
+                <h2>Leilão Criado !!</h2>
+                {auctionTime !== null && <AuctionTimer time={auctionTime} />}
+            </Modal>
         </div>
     );
 };
