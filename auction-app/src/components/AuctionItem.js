@@ -104,7 +104,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
             <div className="auction-item-details">
                 <div className="auction-item-bid">
                     <p className="auction-item-current-bid">Lance Atual: R${currentBid}</p>
-                    <label htmlFor={`increment-amount-${item._id}`} className="auction-item-label">Novo Lance:</label>
+                    <label htmlFor={`increment-amount-${item._id}`} className="info-label">Seu Lance: </label>
                     <select
                         id={`increment-amount-${item._id}`}
                         value={incrementAmount}
@@ -115,7 +115,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
                         {[...Array(21).keys()].map(i => (
                             <option key={i} value={500 * (i + 1)}>{500 * (i + 1)}</option>
                         ))}
-                    </select>
+                    </select> R$
                 </div>
                 <div className="auction-item-info">
                     <p>
@@ -138,7 +138,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
                     </p>
                     {remainingTime === 0 && (
                         <p>
-                            <span className="info-label">Vencedor:</span>
+                            <span className="info-label">Vencedor: </span>
                             <span className="winner-name">{lastBidder}</span>
                         </p>
                     )}
@@ -154,7 +154,7 @@ const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
                 disabled={remainingTime <= 0}
             />
             <button onClick={handlePlaceBid} className="auction-item-button" disabled={remainingTime <= 0}>
-                Dar Lance
+                Lance
             </button>
         </div>
     );

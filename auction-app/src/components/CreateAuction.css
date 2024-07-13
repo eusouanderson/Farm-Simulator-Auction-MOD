@@ -14,11 +14,13 @@ h2 {
     margin-bottom: 20px;
     font-size: 1.5em;
     color: #333;
+    text-align: center; /* Centraliza o texto */
 }
 
 input[type="text"],
 input[type="number"],
-input[type="file"] {
+input[type="file"],
+textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -28,7 +30,7 @@ input[type="file"] {
 }
 
 input[type="file"] {
-    padding: 3px;
+    padding: 8px; /* Ajuste para ficar alinhado com os outros inputs */
 }
 
 img {
@@ -36,6 +38,7 @@ img {
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    max-width: 100%; /* Garante que a imagem não ultrapasse o seu contêiner */
 }
 
 button {
@@ -46,6 +49,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
+    transition: background-color 0.3s; /* Transição suave para o hover */
 }
 
 button:hover {

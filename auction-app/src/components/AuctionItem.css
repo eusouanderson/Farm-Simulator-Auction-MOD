@@ -58,7 +58,7 @@
 
 /* Select Box */
 .auction-item-select {
-    width: 100%;
+    width: 10%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -127,15 +127,17 @@
 
 /* Input */
 .auction-item-input {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #e62424;
     margin-top: 10px;
 }
 
+
 /* Button */
 .auction-item-button {
+
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -145,7 +147,7 @@
     font-size: 1em;
     margin-top: 10px;
     display: block;
-    width: 100%;
+    width: 10%;
 }
 
 .auction-item-button:hover {
@@ -156,3 +158,4 @@
     background-color: #ccc;
     cursor: not-allowed;
 }
+

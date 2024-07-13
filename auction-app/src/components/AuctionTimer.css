@@ -1,6 +1,8 @@
 
 
 .auction-timer {
+    font-weight: bold;
+    color: #555;
     background-color: #e4caca;
     padding: 10px;
     border-radius: 10px;

@@ -64,7 +64,7 @@ const CreateAuction = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <h2>Inserir Novo Item</h2>
+                <h2>Inserir dados do Item</h2>
                 <input
                     type="text"
                     value={ownerName}
