@@ -21,14 +21,24 @@ const AuctionTimer = ({ time, onTimerEnd }) => {
         return () => clearInterval(interval);
     }, [onTimerEnd]);
 
-    const minutes = Math.floor(timeRemaining / 60);
+    const hours = Math.floor(timeRemaining / 3600);
+    const minutes = Math.floor((timeRemaining % 3600) / 60);
     const seconds = timeRemaining % 60;
+
+    let displayTime = '';
+
+    if (hours > 0) {
+        displayTime = `${hours} hora${hours !== 1 ? 's' : ''} ${minutes < 10 ? `0${minutes}` : minutes} minuto${minutes !== 1 ? 's' : ''} ${seconds < 10 ? `0${seconds}` : seconds} segundo${seconds !== 1 ? 's' : ''}`;
+    } else {
+        displayTime = `${minutes} minuto${minutes !== 1 ? 's' : ''} ${seconds < 10 ? `0${seconds}` : seconds} segundo${seconds !== 1 ? 's' : ''}`;
+    }
 
     return (
         <div className="auction-timer">
-            <p>Tempo restante para o leilão: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</p>
+            <p>Tempo restante para o leilão: {displayTime}</p>
         </div>
     );
 };
+
 
 export default AuctionTimer;
