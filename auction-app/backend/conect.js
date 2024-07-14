@@ -1,19 +1,10 @@
-const dotenv = require('dotenv');
-dotenv.config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-
-// Carregar variáveis de ambiente
-
-
-
-
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000 || 5000; // Porta padrão do servidor
 
 // Middleware
 app.use(cors());
@@ -21,7 +12,11 @@ app.use(bodyParser.json());
 
 // Conexão com o MongoDB
 const MONGO_URI = `mongodb+srv://${process.env.USER_LOGIN}:${process.env.USER_PASSWORD}@cluster0.fuidnmk.mongodb.net/farmSimulator?retryWrites=true&w=majority`;
-console.log(MONGO_URI)
+
+if (!MONGO_URI) {
+  throw new Error('MONGO_URI não está definida');
+}
+
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
