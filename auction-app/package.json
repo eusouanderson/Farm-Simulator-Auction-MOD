@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon ./backend/conect.js",
+    "server": "node start-server.js",
     "client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
