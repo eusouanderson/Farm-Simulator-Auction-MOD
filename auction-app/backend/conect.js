@@ -2,21 +2,28 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+
+// Carregar variáveis de ambiente
+dotenv.config();
+
+
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // Conexão com o MongoDB
-const MONGO_URI = 'mongodb+srv://eusouanderson:67983527@cluster0.fuidnmk.mongodb.net/farmSimulator?retryWrites=true&w=majority';
+const MONGO_URI = `mongodb+srv://${process.env.USER_LOGIN}:${process.env.USER_PASSWORD}@cluster0.fuidnmk.mongodb.net/farmSimulator?retryWrites=true&w=majority`;
+console.log(MONGO_URI)
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('MongoDB iniciado'))
+.then(() => console.log('Conectado ao MongoDB'))
 .catch(err => console.error('Erro ao conectar com o MongoDB:', err));
 
 // Definição do Schema e Model
@@ -27,7 +34,7 @@ const AuctionSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
   timeRemaining: { type: Number, required: true },
   timeCurrent: { type: Number, required: true },
-  winner: { type: String, default : '' },
+  winner: { type: String, default: '' },
   lastSpear: { type: String, default: '' },
   description: { type: String, default: '' }
 });
@@ -38,8 +45,8 @@ app.use(bodyParser.json({ limit: '140mb' }));
 
 app.post('/api/auctions', async (req, res) => {
   try {
-    const newAuction = await Auction.create(req.body); 
-    res.status(201).json(newAuction); 
+    const newAuction = await Auction.create(req.body);
+    res.status(201).json(newAuction);
   } catch (err) {
     console.error('Erro ao salvar o leilão:', err);
     res.status(500).json({ message: 'Erro ao salvar o leilão', error: err });
@@ -62,7 +69,7 @@ app.put('/api/updateauction/:id', async (req, res) => {
       updateFields.winner = winner;
     }
     if (startingBid !== undefined) {
-      updateFields.startingBid = startingBid
+      updateFields.startingBid = startingBid;
     }
 
     const updatedAuction = await Auction.findByIdAndUpdate(id, updateFields, { new: true });
@@ -78,8 +85,8 @@ app.put('/api/updateauction/:id', async (req, res) => {
 
 app.get('/api/getauctions', async (req, res) => {
   try {
-    const auctions = await Auction.find(); 
-    res.json(auctions); 
+    const auctions = await Auction.find();
+    res.json(auctions);
   } catch (err) {
     console.error('Erro ao buscar leilões:', err);
     res.status(500).json({ message: 'Erro ao buscar leilões', error: err });

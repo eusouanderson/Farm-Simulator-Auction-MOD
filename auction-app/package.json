@@ -45,6 +45,8 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "dotenv-webpack": "^8.1.0",
     "nodemon": "^2.0.15"
   }
 }
