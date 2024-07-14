@@ -5,6 +5,9 @@ import HomePage from './pages/HomePage';
 import CreateAuctionPage from './pages/CreateAuctionPage';
 import './App.css';
 
+
+
+
 const App = () => {
   const [items, setItems] = useState([]);
 
