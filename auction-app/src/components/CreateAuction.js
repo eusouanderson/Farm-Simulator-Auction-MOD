@@ -6,12 +6,14 @@ import Resizer from 'react-image-file-resizer';
 import Modal from 'react-modal';
 
 let auctionsData = { auctions: [] };
+
 if (localStorage.getItem('auctions')) {
     auctionsData = JSON.parse(localStorage.getItem('auctions'));
+    
+    localStorage.clear();
 } else {
     localStorage.setItem('auctions', JSON.stringify(auctionsData));
 }
-
 
 Modal.setAppElement('#root');
 
@@ -64,18 +66,17 @@ const CreateAuction = () => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            
             Resizer.imageFileResizer(
                 file,
-                500,
-                500,
-                'WEBP',
-                100,
-                0,
+                400, // largura
+                400, // altura
+                'JPEG', // formato (pode ser JPEG, PNG, WEBP, etc.)
+                40, // qualidade (de 1 a 100)
+                0, // rotação
                 (uri) => {
                     setImageUrl(uri);
                 },
-                'base64'
+                'base64' 
             );
         }
     };
