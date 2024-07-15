@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CreateAuction from '../components/CreateAuction';
+import CreateAuction from '../../components/CreateAuction/CreateAuction';
 
 const CreateAuctionPage = ({ createAuction }) => {
     const [auctionCount, setAuctionCount] = useState(1);

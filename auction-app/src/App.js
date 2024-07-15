@@ -1,12 +1,9 @@
-// src/App.js
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import CreateAuctionPage from './pages/CreateAuctionPage';
+import FarmPage from './pages/FarmPage/FarmPage';
+import EuroPage from './pages/EuroPage/EuroPage';
+import CreateAuctionPage from './pages/FarmPage/CreateAuctionPage';
 import './App.css';
-
-
-
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -30,8 +27,9 @@ const App = () => {
         <Link to="/create-auction">Criar Leilão</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<HomePage items={items} placeBid={placeBid} />} />
+        <Route path="/" element={<FarmPage items={items} placeBid={placeBid} />} />
         <Route path="/create-auction" element={<CreateAuctionPage createAuction={createAuction} />} />
+        <Route path="/euro-page" element={<EuroPage />} />
       </Routes>
     </Router>
   );

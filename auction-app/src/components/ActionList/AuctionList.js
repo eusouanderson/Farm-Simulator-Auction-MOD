@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AuctionItem from './AuctionItem';
+import AuctionItem from '../Auctionitem.css/AuctionItem';
 import axios from 'axios';
 
 const AuctionList = ({ placeBid }) => {

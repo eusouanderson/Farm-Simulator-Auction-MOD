@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './AuctionItem.css';
-import AuctionTimer from './AuctionTimer';
+import AuctionTimer from '../AuctionTimer/AuctionTimer';
 import axios from 'axios';
 
 const AuctionItem = ({ item, placeBid, timeRemaining, deleteItem }) => {
